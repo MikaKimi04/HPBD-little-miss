@@ -1,0 +1,22 @@
+<input type="text" id="code" placeholder="Entre ton code">
+<button onclick="checkCode()">Valider</button>
+
+<p id="result"></p>
+
+<script>
+const codes = {
+  "AVENT01": "https://lien1.com",
+  "AVENT02": "https://lien2.com"
+};
+
+function checkCode() {
+  let code = document.getElementById("code").value;
+  let result = document.getElementById("result");
+
+  if (codes[code]) {
+    result.innerHTML = `<a href="${codes[code]}" target="_blank">Découvrir</a>`;
+  } else {
+    result.innerHTML = "Code invalide 😢";
+  }
+}
+</script>
