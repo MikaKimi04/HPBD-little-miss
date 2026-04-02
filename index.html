@@ -1,13 +1,121 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Test</title>
+<title>🎁 Surprise secrète</title>
+
+<style>
+body {
+  font-family: 'Arial';
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  text-align: center;
+  padding: 40px;
+  color: #333;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  max-width: 500px;
+  margin: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+input {
+  padding: 12px;
+  width: 60%;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  background: #ff6b6b;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ff4b4b;
+}
+
+#result {
+  margin-top: 30px;
+}
+
+iframe {
+  margin-top: 15px;
+  border-radius: 10px;
+}
+</style>
 </head>
+
 <body>
 
-<h1>Ça marche 🎉</h1>
+<h1>🎁 Une surprise t'attend...</h1>
+
+<div class="container">
+  <p>Entre ton code secret 💌</p>
+
+  <input id="codeInput" placeholder="Ex: CHOCO12">
+  <button onclick="checkCode()">Découvrir</button>
+
+  <div id="result"></div>
+</div>
+
+<script>
+const surprises = {
+  "CHOCO01": {
+    type: "youtube",
+    content: "dQw4w9WgXcQ",
+    message: "Cette chanson me fait penser à toi ❤️"
+  },
+  "CHOCO02": {
+    type: "text",
+    message: "Tu es incroyable, ne l'oublie jamais 💫"
+  },
+  "CHOCO03": {
+    type: "image",
+    content: "https://picsum.photos/400",
+    message: "Un joli souvenir 📸"
+  }
+  // 👉 tu continues jusqu'à CHOCO50
+};
+
+function checkCode() {
+  const code = document.getElementById("codeInput").value.toUpperCase();
+  const result = document.getElementById("result");
+
+  if (!surprises[code]) {
+    result.innerHTML = "❌ Code inconnu";
+    return;
+  }
+
+  const surprise = surprises[code];
+  let html = `<h2>${surprise.message}</h2>`;
+
+  if (surprise.type === "youtube") {
+    html += `<iframe width="300" height="170"
+      src="https://www.youtube.com/embed/${surprise.content}"
+      frameborder="0" allowfullscreen></iframe>`;
+  }
+
+  if (surprise.type === "image") {
+    html += `<img src="${surprise.content}" width="300">`;
+  }
+
+  result.innerHTML = html;
+}
+</script>
 
 </body>
 </html>
