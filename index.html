@@ -86,7 +86,7 @@ const surprises = {
   },
   "CHOCO03": {
     type: "image",
-    content: "Images/histoire1.png",
+    content: "Images/Story1.png",
     message: "Un joli souvenir 📸"
   }
   // 👉 tu continues jusqu'à CHOCO50
@@ -111,7 +111,7 @@ function checkCode() {
   }
 
   if (surprise.type === "image") {
-    html += `<img src="${surprise.content}" width="300">`;
+    html += `<img src="${surprise.content}" width="500">`;
   }
 
   result.innerHTML = html;
