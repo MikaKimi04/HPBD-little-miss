@@ -65,7 +65,7 @@ iframe {
 <h1>🎁 Something is waiting for you...🫶🏼</h1>
 
 <div class="container">
-  <p>Entre ton code secret 😼</p>
+  <p>Entre ton p'tit code secret 😼</p>
 
   <input id="codeInput" placeholder="Ex: CHOCO12">
   <button onclick="checkCode()">Découvrir</button>
@@ -78,7 +78,7 @@ const surprises = {
   "CHOCO01": {
     type: "youtube",
     content: "byp94CCWKSI",
-    message: "Cette chanson me fait penser à toi ❤️"
+    message: "Petit souvenir de cette virée à 2..."
   },
   "CHOCO12": {
     type: "text",
@@ -278,12 +278,12 @@ function checkCode() {
   let html = `<h2>${surprise.message}</h2>`;
 
   if (surprise.type === "youtube") {
-    html += `<iframe width="300" height="170"
+    html += `<iframe width="450" height="255"
       src="https://www.youtube.com/embed/${surprise.content}"
       frameborder="0" allowfullscreen></iframe>`;
   }
   if (surprise.type === "image") {
-    html += `<img src="${surprise.content}" width="500">`;
+    html += `<img src="${surprise.content}" width="600">`;
   }
 
   result.innerHTML = html;
