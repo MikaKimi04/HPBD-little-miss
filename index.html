@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -14,10 +15,6 @@ body {
   color: #2765F5;
 }
 
-h1 {
-  font-size: 2.5em;
-}
-
 .container {
   background: white;
   padding: 30px;
@@ -27,6 +24,7 @@ h1 {
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
+/* INPUT */
 input {
   padding: 12px;
   width: 60%;
@@ -35,6 +33,7 @@ input {
   border: 1px solid #ccc;
 }
 
+/* BUTTON */
 button {
   padding: 12px 20px;
   font-size: 16px;
@@ -43,19 +42,95 @@ button {
   background: #ff6b6b;
   color: white;
   cursor: pointer;
+  margin: 5px;
+  transition: 0.2s;
 }
 
 button:hover {
   background: #ff4b4b;
+  transform: scale(1.05);
 }
 
 #result {
   margin-top: 30px;
 }
 
-iframe {
-  margin-top: 15px;
-  border-radius: 10px;
+/* 💫 CARD */
+.card {
+  perspective: 1000px;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 500px;
+  height: 240px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* FACES */
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* QUESTION */
+.card-front {
+  background: white;
+  color: #2765F5;
+}
+
+/* RÉPONSE (✨ dégradé + glow) */
+.card-back {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  color: #333;
+  transform: rotateY(180deg);
+  box-shadow: 0 0 20px rgba(255,150,150,0.6);
+}
+
+/* LABEL */
+.label {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* TEXTE */
+.text {
+  font-size: 18px;
+  text-align: center;
+}
+
+/* compteur */
+.counter {
+  margin-top: 10px;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+/* ✨ animation typing */
+.typing {
+  border-right: 2px solid #333;
+  white-space: nowrap;
+  overflow: hidden;
 }
 </style>
 </head>
@@ -75,7 +150,9 @@ iframe {
 
 <script>
 const surprises = {
-  "CHOCO01": {
+
+  // 👉 GARDE TOUTES TES ENTRÉES ICI (CHOCO, etc.)
+ "CHOCO01": {
     type: "youtube",
     content: "byp94CCWKSI",
     message: "Petit souvenir de cette virée à 2..."
@@ -298,8 +375,6 @@ const surprises = {
     content: "Images/horo anniv2.png",
     message: "Qui a dit que c'était fini les horoscopes??😈"
   },
-
- // 👉 AJOUT DU PROUST
   "PROUST01": {
     type: "proust",
     content: [
@@ -309,7 +384,7 @@ const surprises = {
       {q:"Le principal trait de mon caractère",a:"la bêtise"},
       {q:"Ce que j'apprécie le plus chez mes amis",a:"la fidélité"},
       {q:"Mon principal défaut",a:"ma déprime"},
-      {q:"Mon occupation préférée",a:"en journée c'était d'ecrire au pti truc derriere son tel, en début de soirée c'est jouer à côté de cette petite meuf hmmm et en fin de soirée, c'était de la coller contre sa voiture.."},
+      {q:"Mon occupation préférée",a:"en journée c'est d'ecrire au pti truc derriere son tel, en debut de soirée c'est de jouer à côté de cette petite meuf hmm et en fin de soirée c'est de la coller contre sa voiture"},
       {q:"Mon rêve de bonheur",a:"vivre sans soucis"},
       {q:"Quel serait mon plus grand malheur ?",a:"perdre mes proches"},
       {q:"Ce que je voudrais être",a:"qq1 de bien aux yeux de ceux que j'aime"},
@@ -317,27 +392,22 @@ const surprises = {
       {q:"La couleur que je préfère",a:"vert"},
       {q:"La fleur que j'aime",a:"le Lys"},
       {q:"L'oiseau que je préfère",a:"l'aigle"},
-      {q:"Mes auteurs favoris en prose",a:"beaumarchais"},
+      {q:"Mes auteurs favoris",a:"beaumarchais"},
       {q:"Mes poètes préférés",a:"beaudelaire"},
-      {q:"Mes héros dans la fiction",a:"san goku"},
-      {q:"Mes héroïnes favorites",a:"supergirl / wonderwoman"},
-      {q:"Mes compositeurs préférés",a:"garrix"},
-      {q:"Mes peintres favoris",a:"de vinci"},
-      {q:"Personnage historique détesté",a:"hitler"},
-      {q:"Mes héroïnes dans l'histoire",a:"cleopatre"},
-      {q:"Bouffe et boisson préférées",a:"pizza et sprite"},
-      {q:"Ce que je déteste par-dessus tout",a:"l'hypocrisie"},
-      {q:"Le don que je voudrais avoir",a:"rendre les gens heureux"},
+      {q:"Mes héros fiction",a:"san goku"},
+      {q:"Mes héroïnes fiction",a:"supergirl / wonderwoman"},
+      {q:"Compositeur préféré",a:"garrix"},
+      {q:"Peintre favori",a:"de vinci"},
+      {q:"Ce que je déteste le plus",a:"l'hypocrisie"},
+      {q:"Don que je voudrais avoir",a:"rendre les gens heureux"},
       {q:"Comment j'aimerais mourir",a:"vieux après avoir vu mon fils grandir"},
-      {q:"Mon état d'esprit actuel",a:"entre déprime et excitation"},
+      {q:"État d'esprit actuel",a:"entre déprime et excitation"},
       {q:"Ma devise",a:"Le succès appartient aux persévérants"}
     ]
   }
-  
-  // 👉 tu continues jusqu'à CHOCO50
+
 };
 
-// 🔥 CHECK CODE (MODIFIÉ)
 function checkCode() {
   const code = document.getElementById("codeInput").value.toUpperCase();
   const result = document.getElementById("result");
@@ -349,7 +419,6 @@ function checkCode() {
 
   const surprise = surprises[code];
 
-  // 👉 CAS PROUST
   if (surprise.type === "proust") {
     window.proustData = surprise.content;
     window.proustIndex = 0;
@@ -357,7 +426,7 @@ function checkCode() {
     return;
   }
 
-  // 👉 CAS NORMAL (TES SURPRISES)
+  // 👉 tes autres surprises
   let html = `<h2>${surprise.message}</h2>`;
 
   if (surprise.type === "youtube") {
@@ -373,27 +442,50 @@ function checkCode() {
   result.innerHTML = html;
 }
 
-// 💫 PROUST
+/* 💫 PROUST */
 function showProust() {
   const q = proustData[proustIndex];
 
   document.getElementById("result").innerHTML = `
     <div class="card" id="card">
       <div class="card-inner">
-        <div class="card-front">${q.q}</div>
-        <div class="card-back">${q.a}</div>
+        <div class="card-front">
+          <div class="label">Question</div>
+          <div class="text">${q.q}</div>
+        </div>
+        <div class="card-back">
+          <div class="label">Réponse</div>
+          <div class="text" id="answerText"></div>
+        </div>
       </div>
     </div>
 
     <div class="counter">${proustIndex + 1} / ${proustData.length}</div>
 
-    <button onclick="flipCard()">Voir réponse</button>
+    <button onclick="flipCard()">✨ Révéler</button>
     <button onclick="nextQuestion()">Suivant</button>
   `;
 }
 
+/* ✨ flip + typing */
 function flipCard() {
   document.getElementById("card").classList.toggle("flipped");
+
+  const text = proustData[proustIndex].a;
+  const target = document.getElementById("answerText");
+
+  target.innerHTML = "";
+  let i = 0;
+
+  function type() {
+    if (i < text.length) {
+      target.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(type, 25);
+    }
+  }
+
+  setTimeout(type, 300);
 }
 
 function nextQuestion() {
@@ -407,3 +499,6 @@ function nextQuestion() {
   showProust();
 }
 </script>
+
+</body>
+</html>
