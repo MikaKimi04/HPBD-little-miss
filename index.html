@@ -298,10 +298,46 @@ const surprises = {
     content: "Images/horo anniv2.png",
     message: "Qui a dit que c'était fini les horoscopes??😈"
   },
+
+ // 👉 AJOUT DU PROUST
+  "PROUST01": {
+    type: "proust",
+    content: [
+      {q:"Ma vertu préférée",a:"l'altruisme"},
+      {q:"La qualité que je préfère chez un homme",a:"le no prise de tête"},
+      {q:"La qualité que je préfère chez une femme",a:"la résilience"},
+      {q:"Le principal trait de mon caractère",a:"la bêtise"},
+      {q:"Ce que j'apprécie le plus chez mes amis",a:"la fidélité"},
+      {q:"Mon principal défaut",a:"ma déprime"},
+      {q:"Mon occupation préférée",a:"en journée c'est d'ecrire au pti truc derriere son tel..."},
+      {q:"Mon rêve de bonheur",a:"vivre sans soucis"},
+      {q:"Quel serait mon plus grand malheur ?",a:"perdre mes proches"},
+      {q:"Ce que je voudrais être",a:"qq1 de bien aux yeux de ceux que j'aime"},
+      {q:"Le pays où je désirerais vivre",a:"les USA"},
+      {q:"La couleur que je préfère",a:"vert"},
+      {q:"La fleur que j'aime",a:"le Lys"},
+      {q:"L'oiseau que je préfère",a:"l'aigle"},
+      {q:"Mes auteurs favoris en prose",a:"beaumarchais"},
+      {q:"Mes poètes préférés",a:"beaudelaire"},
+      {q:"Mes héros dans la fiction",a:"san goku"},
+      {q:"Mes héroïnes favorites",a:"supergirl / wonderwoman"},
+      {q:"Mes compositeurs préférés",a:"garrix"},
+      {q:"Mes peintres favoris",a:"de vinci"},
+      {q:"Personnage historique détesté",a:"hitler"},
+      {q:"Mes héroïnes dans l'histoire",a:"cleopatre"},
+      {q:"Bouffe et boisson préférées",a:"pizza et sprite"},
+      {q:"Ce que je déteste par-dessus tout",a:"l'hypocrisie"},
+      {q:"Le don que je voudrais avoir",a:"rendre les gens heureux"},
+      {q:"Comment j'aimerais mourir",a:"vieux après avoir vu mon fils grandir"},
+      {q:"Mon état d'esprit actuel",a:"entre déprime et excitation"},
+      {q:"Ma devise",a:"Le succès appartient aux persévérants"}
+    ]
+  }
   
   // 👉 tu continues jusqu'à CHOCO50
 };
 
+// 🔥 CHECK CODE (MODIFIÉ)
 function checkCode() {
   const code = document.getElementById("codeInput").value.toUpperCase();
   const result = document.getElementById("result");
@@ -312,6 +348,16 @@ function checkCode() {
   }
 
   const surprise = surprises[code];
+
+  // 👉 CAS PROUST
+  if (surprise.type === "proust") {
+    window.proustData = surprise.content;
+    window.proustIndex = 0;
+    showProust();
+    return;
+  }
+
+  // 👉 CAS NORMAL (TES SURPRISES)
   let html = `<h2>${surprise.message}</h2>`;
 
   if (surprise.type === "youtube") {
@@ -319,13 +365,45 @@ function checkCode() {
       src="https://www.youtube.com/embed/${surprise.content}"
       frameborder="0" allowfullscreen></iframe>`;
   }
+
   if (surprise.type === "image") {
     html += `<img src="${surprise.content}" width="600">`;
   }
 
   result.innerHTML = html;
 }
-</script>
 
-</body>
-</html>
+// 💫 PROUST
+function showProust() {
+  const q = proustData[proustIndex];
+
+  document.getElementById("result").innerHTML = `
+    <div class="card" id="card">
+      <div class="card-inner">
+        <div class="card-front">${q.q}</div>
+        <div class="card-back">${q.a}</div>
+      </div>
+    </div>
+
+    <div class="counter">${proustIndex + 1} / ${proustData.length}</div>
+
+    <button onclick="flipCard()">Voir réponse</button>
+    <button onclick="nextQuestion()">Suivant</button>
+  `;
+}
+
+function flipCard() {
+  document.getElementById("card").classList.toggle("flipped");
+}
+
+function nextQuestion() {
+  proustIndex++;
+
+  if (proustIndex >= proustData.length) {
+    document.getElementById("result").innerHTML = "<h2>💫 Fin du test 💫</h2>";
+    return;
+  }
+
+  showProust();
+}
+</script>
