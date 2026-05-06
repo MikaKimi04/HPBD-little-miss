@@ -6,12 +6,54 @@
 <title>🎁 Secret Surprise 🎁</title>
 
 <style>
+
+/* 🌈 BANDEAU NAVIGATION */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4, #a1c4fd);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+}
+
+.navbar a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.18);
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.25);
+  transition: 0.25s;
+}
+
+.navbar a:hover {
+  background: white;
+  color: #ff6b6b;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+/* pour éviter que le bandeau cache le contenu */
+body {
+  padding-top: 120px;
+}
+  
 body {
   font-family: 'Lucida Handwriting';
   background-image: url('Images/Petite.png');
   background-size: cover;
   text-align: center;
-  padding: 50px;
+  padding: 120px 50px 50px;
   color: #2765F5;
 }
 
@@ -136,7 +178,15 @@ button:hover {
 </head>
 
 <body>
-
+  
+<nav class="navbar">
+  <a href="index.html">🎁 Accueil</a>
+  <a href="surprise01.html">✨ Surprise 01</a>
+  <a href="surprise02.html">💖 Surprise 02</a>
+  <a href="surprise03.html">🌙 Surprise 03</a>
+  <a href="surprise04.html">🔥 Surprise 04</a>
+</nav>
+  
 <h1>🎁 Something is waiting for you...🫶🏼</h1>
 
 <div class="container">
