@@ -622,23 +622,26 @@ button:hover {
 </div>
 
 <script>
-const conversations = {
+const conversationFiles = {
   "CONV01": {
-    date: "Souvenir test ✨",
-    messages: [
-      { sender: "Mika", text: "coucou toi" },
-      { sender: "Alex", text: "hello comment ca va ?" },
-      { sender: "Mika", text: "trankil" },
-      { sender: "Mika", text: "t'as deja bien bossé today" },
-      { sender: "Alex", text: "pourquoi tu dis ca, je suis au max là" },
-      { sender: "Mika", text: "car il fait si beau dehors que t'as deja bien bossé pour rayonner autant" }
-    ]
+    date: "Petite virée à 2...✨",
+    file: "Conversations/13 novembre.txt"
+  },
+
+  "CONV02": {
+    date: "Une autre conversation 💫",
+    file: "Conversations/conv02.txt"
+  },
+
+  "CONV03": {
+    date: "Encore une autre conversation 😼",
+    file: "Conversations/conv03.txt"
   }
 };
 
 // 👉 Réglages simples
-const me = "Mika";       // Mika apparaît en vert à droite
-const her = "Alex";      // Alex apparaît en rose à gauche
+const me = "Mikakimi";       // Mika apparaît en vert à droite
+const her = "Volley Alex";      // Alex apparaît en rose à gauche
 
 let currentConversation = null;
 let currentIndex = 0;
@@ -656,12 +659,12 @@ codeInput.addEventListener("keydown", function(event) {
   }
 });
 
-function checkConversationCode() {
+async function checkConversationCode() {
   const code = codeInput.value.trim().toUpperCase();
 
   errorMessage.textContent = "";
 
-  if (!conversations[code]) {
+  if (!conversationFiles[code]) {
     errorMessage.textContent = "❌ Code inconnu... essaie CONV01 pour tester 🤪";
     shakeCodeBox();
     return;
@@ -669,20 +672,73 @@ function checkConversationCode() {
 
   if (isPlaying) return;
 
-  currentConversation = conversations[code];
-  currentIndex = 0;
-  isPlaying = true;
+  const conversationInfo = conversationFiles[code];
 
-  phone.style.display = "block";
-  chatBody.innerHTML = "";
-  onlineStatus.textContent = "connexion à la conversation...";
+  try {
+    const response = await fetch(conversationInfo.file);
 
-  setTimeout(() => {
-    addDateBadge(currentConversation.date);
-    playConversation();
-  }, 700);
+    if (!response.ok) {
+      throw new Error("Fichier introuvable");
+    }
+
+    const text = await response.text();
+    const messages = parseConversationText(text);
+
+    if (messages.length === 0) {
+      throw new Error("Conversation vide ou format incorrect");
+    }
+
+    currentConversation = {
+      date: conversationInfo.date,
+      messages: messages
+    };
+
+    currentIndex = 0;
+    isPlaying = true;
+
+    phone.style.display = "block";
+    chatBody.innerHTML = "";
+    onlineStatus.textContent = "connexion à la conversation...";
+
+    setTimeout(() => {
+      addDateBadge(currentConversation.date);
+      playConversation();
+    }, 700);
+
+  } catch (error) {
+    errorMessage.textContent = "❌ Impossible de charger cette conversation 😭";
+    shakeCodeBox();
+    console.error(error);
+  }
 }
 
+function parseConversationText(text) {
+  return text
+    .split("\n")
+    .map(line => line.trim())
+    .filter(line => line.length > 0)
+    .map(line => {
+      const separatorIndex = line.indexOf(":");
+
+      if (separatorIndex === -1) {
+        return null;
+      }
+
+      const sender = line.slice(0, separatorIndex).trim();
+      const messageText = line.slice(separatorIndex + 1).trim();
+
+      if (!sender || !messageText) {
+        return null;
+      }
+
+      return {
+        sender: sender,
+        text: messageText
+      };
+    })
+    .filter(message => message !== null);
+}
+  
 function playConversation() {
   if (currentIndex >= currentConversation.messages.length) {
     onlineStatus.textContent = "conversation terminée ✨";
