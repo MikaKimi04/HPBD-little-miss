@@ -751,14 +751,14 @@ function playConversation() {
 
   showTyping(message.sender);
 
-  const typingTime = 850 + Math.random() * 700;
+  const typingTime = 1500 + Math.random() * 1000;
 
   setTimeout(() => {
     removeTyping();
     addMessage(message);
     currentIndex++;
 
-    const pauseBetweenMessages = 650 + Math.random() * 550;
+    const pauseBetweenMessages = 1100 + Math.random() * 900;
 
     setTimeout(playConversation, pauseBetweenMessages);
   }, typingTime);
