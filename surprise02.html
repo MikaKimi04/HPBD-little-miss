@@ -799,6 +799,7 @@ function removeTyping() {
   }
 }
 
+
 function addMessage(message) {
   const bubble = document.createElement("div");
 
@@ -816,16 +817,6 @@ function addMessage(message) {
     <div class="message-name">${message.sender}</div>
     <div>${displayedText}</div>
     <div class="message-time">${message.time}</div>
-  `;
-
-  chatBody.appendChild(bubble);
-  scrollToBottom();
-}
-
-  bubble.innerHTML = `
-    <div class="message-name">${message.sender}</div>
-    <div>${message.text}</div>
-    <div class="message-time">${getFakeTime()}</div>
   `;
 
   chatBody.appendChild(bubble);
