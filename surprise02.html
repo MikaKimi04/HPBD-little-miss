@@ -688,10 +688,10 @@ async function checkConversationCode() {
       throw new Error("Conversation vide ou format incorrect");
     }
 
-    currentConversation = {
-      date: conversationInfo.date,
-      messages: messages
-    };
+currentConversation = {
+  date: messages[0].date,
+  messages: messages
+};
 
     currentIndex = 0;
     isPlaying = true;
@@ -809,6 +809,18 @@ function addMessage(message) {
   } else {
     bubble.classList.add("her");
   }
+
+  const displayedText = message.text ? message.text : "…";
+
+  bubble.innerHTML = `
+    <div class="message-name">${message.sender}</div>
+    <div>${displayedText}</div>
+    <div class="message-time">${message.time}</div>
+  `;
+
+  chatBody.appendChild(bubble);
+  scrollToBottom();
+}
 
   bubble.innerHTML = `
     <div class="message-name">${message.sender}</div>
