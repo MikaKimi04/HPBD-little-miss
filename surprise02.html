@@ -713,30 +713,34 @@ async function checkConversationCode() {
 }
 
 function parseConversationText(text) {
-  return text
+  const lines = text
     .split("\n")
     .map(line => line.trim())
-    .filter(line => line.length > 0)
-    .map(line => {
-      const separatorIndex = line.indexOf(":");
+    .filter(line => line.length > 0);
 
-      if (separatorIndex === -1) {
-        return null;
-      }
+  const messages = [];
 
-      const sender = line.slice(0, separatorIndex).trim();
-      const messageText = line.slice(separatorIndex + 1).trim();
+  lines.forEach(line => {
+    const match = line.match(/^(\d{2}\/\d{2}\/\d{4}),\s(\d{2}:\d{2})\s-\s([^:]+):\s?(.*)$/);
 
-      if (!sender || !messageText) {
-        return null;
-      }
+    if (!match) {
+      return;
+    }
 
-      return {
-        sender: sender,
-        text: messageText
-      };
-    })
-    .filter(message => message !== null);
+    const date = match[1];
+    const time = match[2];
+    const sender = match[3].trim();
+    const messageText = match[4].trim();
+
+    messages.push({
+      date: date,
+      time: time,
+      sender: sender,
+      text: messageText
+    });
+  });
+
+  return messages;
 }
   
 function playConversation() {
