@@ -689,7 +689,7 @@ async function checkConversationCode() {
     }
 
 currentConversation = {
-  date: messages[0].date,
+  date: `${conversationInfo.date} — ${messages[0].date}`,
   messages: messages
 };
 
