@@ -714,16 +714,17 @@ currentConversation = {
 
 function parseConversationText(text) {
   const lines = text
-    .split("\n")
+    .split(/\r?\n/)
     .map(line => line.trim())
     .filter(line => line.length > 0);
 
   const messages = [];
 
   lines.forEach(line => {
-    const match = line.match(/^(\d{2}\/\d{2}\/\d{4}),\s(\d{2}:\d{2})\s-\s([^:]+):\s?(.*)$/);
+    const match = line.match(/^(\d{1,2}\/\d{1,2}\/\d{4}),\s*(\d{1,2}:\d{2})\s*-\s*([^:]+):\s*(.*)$/);
 
     if (!match) {
+      console.warn("Ligne non reconnue :", line);
       return;
     }
 
